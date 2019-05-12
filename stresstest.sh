@@ -36,7 +36,11 @@ while [ ${count} -lt ${tot_count} ]; do
         SECONDS=0
         ./bin/dbRegister -J config.json -j t -t chipCfg >> log.txt
         write_time=$((write_time+SECONDS))
+    done
 
+    python monitor.py 
+
+    while [ ${cnt} -lt 1000 ]; do
         # measure time to retrieve
         id=`cat id.txt`
         SECONDS=0
@@ -44,7 +48,6 @@ while [ ${count} -lt ${tot_count} ]; do
         retrieve_time=$((retrieve_time+SECONDS))
     done
 
-    python monitor.py >> log.txt
     files_size=`cat files_size.txt`
     echo "${write_count} ${files_size} ${register_time} ${retrieve_time} ${write_time}" >> ${logfile}
     tot_time=$((tot_time+register_time+retrieve_time+write_time))
