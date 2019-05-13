@@ -15,7 +15,7 @@ while [ ${count} -lt ${tot_count} ]; do
     # just write
     while [ ${cnt} -lt $((write_count-2000)) ]; do
         cnt=$(( cnt + 1 ))
-        ./bin/dbRegister -J config.json -j t -t chipCfg >> log.txt
+        ./bin/dbAccessor -J config.json -j t -t chipCfg >> log.txt
     done
 
     cnt=0
@@ -29,12 +29,12 @@ while [ ${count} -lt ${tot_count} ]; do
 
         # measure time to register
         SECONDS=0
-        ./bin/dbRegister -J config.json -j gj -t chipCfg >> log.txt
+        ./bin/dbAccessor -J config.json -j gj -t chipCfg >> log.txt
         register_time=$((register_time+SECONDS))
 
         # measure time to just write
         SECONDS=0
-        ./bin/dbRegister -J config.json -j t -t chipCfg >> log.txt
+        ./bin/dbAccessor -J config.json -j t -t chipCfg >> log.txt
         write_time=$((write_time+SECONDS))
     done
 
@@ -44,7 +44,7 @@ while [ ${count} -lt ${tot_count} ]; do
         # measure time to retrieve
         id=`cat id.txt`
         SECONDS=0
-        ./bin/dbRegister -G config.json -i ${id} -t chipCfg >> log.txt
+        ./bin/dbAccessor -G config.json -i ${id} -t chipCfg >> log.txt
         retrieve_time=$((retrieve_time+SECONDS))
     done
 
