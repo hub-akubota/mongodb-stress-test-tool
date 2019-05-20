@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -eu
+
 echo "`date "+%Y.%m.%d_%H:%M:%S"`: ----------------------------" 
 logfile="data.dat"
 tot_count=50
@@ -10,10 +14,12 @@ while [ ${count} -lt ${tot_count} ]; do
     echo "`date "+%Y.%m.%d_%H:%M:%S"`: count : ${count}" 
     count=$(( count + 1 ))
     write_count=50000
+		regist_count=1000
     cnt=0
+    echo "write..." >> log.txt
 
     # just write
-    while [ ${cnt} -lt $((write_count-2000)) ]; do
+    while [ ${cnt} -lt $((write_count-regist_count-regist_count)) ]; do
         cnt=$(( cnt + 1 ))
         ./bin/dbAccessor -J config.json -j t -t chipCfg >> log.txt
     done
@@ -22,7 +28,8 @@ while [ ${count} -lt ${tot_count} ]; do
     register_time=0
     retrieve_time=0
     write_time=0
-    while [ ${cnt} -lt 1000 ]; do
+    echo "register..." >> log.txt
+    while [ ${cnt} -lt ${regist_count} ]; do
         cnt=$(( cnt + 1 ))
         num=$RANDOM 
         sed -i "4c\            \"Amp2Vbn\": ${num}," config.json
@@ -40,8 +47,11 @@ while [ ${count} -lt ${tot_count} ]; do
 
     python monitor.py 
 
+    cnt=0
+    echo "retrieve..." >> log.txt
     while [ ${cnt} -lt 1000 ]; do
         # measure time to retrieve
+        cnt=$(( cnt + 1 ))
         id=`cat id.txt`
         SECONDS=0
         ./bin/dbAccessor -G config.json -i ${id} -t chipCfg >> log.txt

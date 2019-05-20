@@ -15,7 +15,7 @@ logfile = open( "size.dat", 'a' )
 
 dataSize=yarrdb.command("dbstats")["dataSize"]
 storageSize=yarrdb.command("dbstats")["storageSize"]
-print(datetime.datetime.now().strftime('%Y.%m.%d_%H:%M:%S:       storage size ... {} MB'.format( storageSize/10000000. )))
+print(datetime.datetime.now().strftime('%Y.%m.%d_%H:%M:%S:       storage size ... {} MB'.format( storageSize/1000000. )))
 indexSize=yarrdb.command("dbstats")["indexSize"]
 fsUsedSize=yarrdb.command("dbstats")["fsUsedSize"]
 fsTotalSize=yarrdb.command("dbstats")["fsTotalSize"]

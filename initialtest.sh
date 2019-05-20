@@ -11,6 +11,7 @@ while [ ${count} -lt ${tot_count} ]; do
     count=$(( count + 1 ))
     write_count=10000
     cnt=0
+    echo "write..." > log.txt
 
     # just write
     while [ ${cnt} -lt $((write_count-2000)) ]; do
@@ -22,6 +23,7 @@ while [ ${count} -lt ${tot_count} ]; do
     register_time=0
     retrieve_time=0
     write_time=0
+    echo "register..." >> log.txt
     while [ ${cnt} -lt 1000 ]; do
         cnt=$(( cnt + 1 ))
         num=$RANDOM 
@@ -40,8 +42,11 @@ while [ ${count} -lt ${tot_count} ]; do
 
     python monitor.py 
 
+    cnt=0
+    echo "retrieve..." >> log.txt
     while [ ${cnt} -lt 1000 ]; do
         # measure time to retrieve
+        cnt=$(( cnt + 1 ))
         id=`cat id.txt`
         SECONDS=0
         ./bin/dbAccessor -G config.json -i ${id} -t chipCfg >> log.txt
